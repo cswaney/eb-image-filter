@@ -1,4 +1,3 @@
-import express from 'express';
 import bodyParser from 'body-parser';
 import express, { Router, Request, Response } from 'express';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
@@ -34,6 +33,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
         .send(`image_url is required`);
     }
 
+    // TODO: error handling
     // call filterImageFromURL(image_url) to filter the image (and return local image path)
     filterImageFromURL(image_url).then(filteredpath => {
       // send the resulting file in the response
