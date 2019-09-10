@@ -31,24 +31,24 @@ const util_1 = require("./util/util");
     //   GET /filteredimage?image_url={{URL}}
     // RESPONSE
     //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
-    app.get("/filteredimage/", (req, res) => {
+    app.get("/filteredimage/", (req, res) => __awaiter(this, void 0, void 0, function* () {
         let { image_url } = req.query;
         // validate the image_url query
         if (!image_url) {
             return res.status(400)
                 .send(`image_url is required`);
         }
-        // TODO: error handling
-        // call filterImageFromURL(image_url) to filter the image (and return local image path)
-        util_1.filterImageFromURL(image_url).then(filteredpath => {
-            // send the resulting file in the response
-            return res.status(200)
-                .sendFile(filteredpath, () => {
-                console.log('Sent:', filteredpath);
-                util_1.deleteLocalFiles([filteredpath]); // deletes any files on the server on finish of the response
+        try {
+            let filteredpath = yield util_1.filterImageFromURL(image_url);
+            return res.status(200).sendFile(filteredpath, () => {
+                util_1.deleteLocalFiles([filteredpath]);
             });
-        });
-    });
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(400).send('unable to filter content at image_url');
+        }
+    }));
     // Start the Server
     app.listen(port, () => {
         console.log(`server running http://localhost:${port}`);

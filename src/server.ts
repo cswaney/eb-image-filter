@@ -34,17 +34,6 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
           .send(`image_url is required`);
       }
 
-      // TODO: error handling
-      // call filterImageFromURL(image_url) to filter the image (and return local image path)
-      // filterImageFromURL(image_url).then(filteredpath => {
-      //   // send the resulting file in the response
-      //   return res.status(200)
-      //     .sendFile(filteredpath, () => {  // transfers the file at the given path
-      //       console.log('Sent:', filteredpath)
-      //       deleteLocalFiles([filteredpath])  // deletes any files on the server on finish of the response
-      //     })
-      // })
-
       try {
         let filteredpath = await filterImageFromURL(image_url);
         return res.status(200).sendFile(filteredpath, () => {
